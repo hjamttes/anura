@@ -1,0 +1,60 @@
+declare class LocalFSStats {
+    name: string;
+    size: number;
+    atime: Date;
+    mtime: Date;
+    ctime: Date;
+    atimeMs: number;
+    mtimeMs: number;
+    ctimeMs: number;
+    node: string;
+    nlinks: number;
+    mode: number;
+    type: "FILE" | "DIRECTORY";
+    uid: number;
+    gid: number;
+    dev: string;
+    isFile(): boolean;
+    isDirectory(): boolean;
+    isSymbolicLink(): boolean;
+    constructor(data: Partial<LocalFSStats>);
+}
+declare class LocalFS extends AFSProvider<LocalFSStats> {
+    dirHandle: FileSystemDirectoryHandle;
+    domain: string;
+    name: string;
+    version: string;
+    path: any;
+    stats: Map<string, any>;
+    fds: FileSystemHandle[];
+    cursors: number[];
+    constructor(dirHandle: FileSystemDirectoryHandle, domain: string);
+    relativizePath(path: string): string;
+    getChildDirHandle(path: string, recurseCounter?: number): Promise<[FileSystemDirectoryHandle, string]>;
+    getFileHandle(path: string, options?: FileSystemGetFileOptions, recurseCounter?: number): Promise<[FileSystemFileHandle, string]>;
+    static newOPFS(anuraPath: string): Promise<LocalFS>;
+    static newRootOPFS(): Promise<LocalFS>;
+    static new(anuraPath: string): Promise<LocalFS>;
+    promises: {
+        saveStats: () => Promise<void>;
+        writeFile: (path: string, data: Uint8Array | string, options?: any) => Promise<void>;
+        readFile: (path: string) => Promise<any>;
+        readdir: (path: string) => Promise<string[]>;
+        appendFile: (path: string, data: Uint8Array) => Promise<void>;
+        unlink: (path: string) => Promise<void>;
+        mkdir: (path: string) => Promise<void>;
+        rmdir: (path: string) => Promise<void>;
+        rename: (oldPath: string, newPath: string) => Promise<void>;
+        stat: (path: string) => Promise<LocalFSStats>;
+        truncate: (path: string, len: number) => Promise<void>;
+        access(path: string, mode: number): Promise<void>;
+        chown(path: string, uid: number, gid: number): Promise<void>;
+        chmod: (fullPath: string, mode: number) => Promise<void>;
+        link: (existingPath: string, newPath: string) => Promise<void>;
+        lstat: (path: string) => Promise<LocalFSStats>;
+        mkdtemp: (template: string) => Promise<string>;
+        readlink: (path: string) => Promise<string>;
+        symlink: (target: string, path: string) => Promise<void>;
+        utimes: (path: string, atime: Date | number, mtime: Date | number) => Promise<void>;
+    };
+}
