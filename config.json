@@ -1,5 +1,5 @@
 {
-	"apps": ["apps/fsapp.app", "apps/marketplace.app"],
+	"apps": ["apps/fsapp.app", "apps/marketplace.app", "apps/ashell.app"],
 	"libs": [
 		"/apps/libfileview.lib",
 		"/apps/libfilepicker.lib",
@@ -15,7 +15,7 @@
 	],
 	"defaultsettings": {
 		"use-sw-cache": false,
-		"applist": ["anura.browser", "anura.settings", "anura.fsapp", "anura.store"],
+		"applist": ["anura.browser", "anura.settings", "anura.store"],
 		"clampWindows": true,
 		"launcher-keybind": true,
 		"relay-url": "wss://relay.widgetry.org/",
